@@ -16,8 +16,8 @@ export class ClassRenderer extends DartRenderer<ConstrainedObjectModel> {
       await this.renderAccessors(),
       await this.runAdditionalContentPreset(),
     ];
-
-    return `class ${this.model.name} {
+    const extending = this.model.extending !== undefined ? `extends ${this.model.extending.name} ` : ' ';
+    return `class ${this.model.name} ${extending}{
 ${this.indent(this.renderBlock(content, 2))}
 }`;
   }

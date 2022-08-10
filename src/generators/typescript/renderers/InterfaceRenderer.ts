@@ -14,7 +14,7 @@ export class InterfaceRenderer extends TypeScriptObjectRenderer {
       await this.runAdditionalContentPreset()
     ];
 
-    return `interface ${this.model.name} {
+    return `interface ${this.model.name} ${this.renderExtendsFrom()} {
 ${this.indent(this.renderBlock(content, 2))}
 }`;
   }

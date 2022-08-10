@@ -10,13 +10,15 @@ import { GoOptions } from '../GoGenerator';
  */
 export class StructRenderer extends GoRenderer<ConstrainedObjectModel> {
   public async defaultSelf(): Promise<string> {
+    const extending = this.model.extending !== undefined ? `${this.model.extending.name} ` : ' ';
     const content = [
+      extending,
       await this.renderFields(),
       await this.runAdditionalContentPreset()
     ];
     
     const doc = this.renderComments(`${this.model.name} represents a ${this.model.name} model.`);
-    
+
     return `${doc}
 type ${this.model.name} struct {
 ${this.indent(this.renderBlock(content, 2))}

@@ -174,7 +174,8 @@ export class ConstrainedObjectModel extends ConstrainedMetaModel {
     name: string,
     originalInput: any, 
     type: string,
-    public properties: { [key: string]: ConstrainedObjectPropertyModel; }) {
+    public properties: { [key: string]: ConstrainedObjectPropertyModel; },
+    public extending?: ConstrainedReferenceModel | undefined) {
     super(name, originalInput, type);
   }
 
@@ -186,6 +187,10 @@ export class ConstrainedObjectModel extends ConstrainedMetaModel {
     ).map((modelProperty) => {
       return modelProperty.property as ConstrainedReferenceModel;
     });
+    
+    if(this.extending !== undefined) {
+      dependencyModels.push(this.extending);
+    }
     //Ensure no self references
     dependencyModels = dependencyModels.filter((referenceModel) => {
       return referenceModel.name !== this.name;

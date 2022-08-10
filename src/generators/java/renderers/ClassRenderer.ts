@@ -24,8 +24,10 @@ export class ClassRenderer extends JavaRenderer<ConstrainedObjectModel> {
     if (this.model.containsPropertyType(ConstrainedDictionaryModel)) {
       this.addDependency('import java.util.Map;');
     }
+
+    const extending = this.model.extending !== undefined ? `extends ${this.model.extending.name} ` : ' ';
     
-    return `public class ${this.model.name} {
+    return `public class ${this.model.name} ${extending}{
 ${this.indent(this.renderBlock(content, 2))}
 }`;
   }

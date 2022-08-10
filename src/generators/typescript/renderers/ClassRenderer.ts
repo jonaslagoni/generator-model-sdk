@@ -17,7 +17,7 @@ export class ClassRenderer extends TypeScriptObjectRenderer {
       await this.runAdditionalContentPreset()
     ];
 
-    return `class ${this.model.name} {
+    return `class ${this.model.name} ${this.renderExtendsFrom()}{
 ${this.indent(this.renderBlock(content, 2))}
 }`;
   }
