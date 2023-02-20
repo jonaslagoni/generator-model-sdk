@@ -111,3 +111,45 @@ To set the interpreter up to ignore the default behavior, you can further restri
 - `ignoreAdditionalItems` - if set, it ensures that `additionalItems` by default is ignored.
 
 Check out this [example out for a live demonstration](../examples/passing-interpreter-options/) for how to customize the behavior of `additionalProperties`.
+
+## Load configuration from file 
+
+For different scenarios it might be needed to load configurations from a file rather then or along side normal configurations.
+
+The way the configurations are applied are the following:
+
+1. Default configuration is loaded
+2. (optional) If file configuration are provided, it's then applied
+3. Other configurations are applied
+
+The supported configuration types are either by object:
+```
+export default {
+
+}
+```
+
+Or by function. By using a function you can also provide custom arguments for when the configuration is loaded through the `fileArgs` configuration argument, to dynamically change which configuration are returned.
+```
+export default function test(args) {
+    return {
+        // Configuration
+    }
+}
+```
+
+The following module systems are supported, ESM:
+```
+export default {
+
+}
+```
+
+and CJM: 
+```
+module.export = {
+
+}
+```
+
+Check out this [example out for a live demonstration](../examples/load-configuration-from-file/) for how to customize the behavior of `additionalProperties`.

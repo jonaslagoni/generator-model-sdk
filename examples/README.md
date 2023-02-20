@@ -51,6 +51,7 @@ These are examples that can be applied in all scenarios.
 - [indentation-type-and-size](./indentation-type-and-size) - This example shows how to change the indentation type and size of the generated model.
 - [change-type-mapping](./change-type-mapping/) - A basic example showing how to change the type of a model in some context.
 - [change-type-mapping-with-dependency](./change-type-mapping-with-dependency/) - A basic example showing how to use the dependency manager to inject your own custom type with a dependency instead of the default type.
+- [load-configuration-from-file](./load-configuration-from-file) - A basic example showing how to load a generator configuration from a file.
 
 
 ## Simple generator examples

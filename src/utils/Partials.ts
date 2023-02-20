@@ -1,4 +1,5 @@
 /* eslint-disable security/detect-object-injection, @typescript-eslint/ban-types */
+import { loadConfiguration } from './ConfigurationFileLoader';
 
 /**
  * Deep partial type that does NOT partial function arguments.
@@ -40,18 +41,30 @@ export function mergePartialAndDefault<T extends Record<string, any>>(
   }
   // create a new object
   const target = { ...defaultNonOptional } as Record<string, any>;
-
-  // deep merge the object into the target object
-  for (const [propName, prop] of Object.entries(customOptional)) {
-    const isObjectOrClass =
-      typeof prop === 'object' && target[propName] !== undefined;
-    const isRegularObject = !isClass(prop);
-    if (isObjectOrClass && isRegularObject) {
-      target[propName] = mergePartialAndDefault(target[propName], prop);
-    } else if (prop) {
-      target[propName] = prop;
+  const applyConfiguration = (conf: any) => {
+    for (const [propName, prop] of Object.entries(conf)) {
+      const isObjectOrClass =
+        typeof prop === 'object' && target[propName] !== undefined;
+      const isRegularObject = !isClass(prop);
+      if (isObjectOrClass && isRegularObject) {
+        target[propName] = mergePartialAndDefault(target[propName], prop);
+      } else if (prop) {
+        target[propName] = prop;
+      }
     }
+  };
+
+  // First apply the file configuration, if present
+  if (customOptional.file) {
+    const fileArgs = customOptional.fileArgs
+      ? customOptional.fileArgs
+      : undefined;
+    const loadedConf = loadConfiguration(customOptional.file, fileArgs);
+    applyConfiguration(loadedConf);
   }
+
+  // Then apply the custom configurations
+  applyConfiguration(customOptional);
 
   return target as T;
 }

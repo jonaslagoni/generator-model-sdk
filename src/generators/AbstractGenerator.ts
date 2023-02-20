@@ -21,6 +21,11 @@ export interface CommonGeneratorOptions<
     type: IndentationTypes;
     size: number;
   };
+  file?: string;
+  /**
+   * Arguments passed to the file configuration, if it exposes a function, otherwise it's ignored
+   */
+  fileArgs?: any;
   defaultPreset?: P;
   presets?: Presets<P>;
   processorOptions?: ProcessorOptions;

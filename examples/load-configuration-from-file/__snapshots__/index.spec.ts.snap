@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should be able to render models for loaded configuration and should log expected output to console 1`] = `
+"Should load cjm exposed object: 
+interface Customroot {
+          custom_prop_email?: string;
+}
+Should load cjm exposed function: 
+Passed args: {\\"myCustomArgs\\":\\"something\\"}
+interface Customroot {
+          custom_prop_email?: string;
+}
+Should load esm exposed object: 
+interface Customroot {
+          custom_prop_email?: string;
+}
+Should load esm exposed function: 
+Passed args: test
+interface Customroot {
+          custom_prop_email?: string;
+}"
+`;
