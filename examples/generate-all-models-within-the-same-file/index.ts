@@ -1,5 +1,6 @@
 import { JavaFileGenerator } from '../../src';
 import { promises as fsPromises } from 'fs';
+import path from 'path';
 
 const generator = new JavaFileGenerator();
 const jsonSchemaDraft7 = {
@@ -14,7 +15,7 @@ const jsonSchemaDraft7 = {
   }
 };
 export async function generate(): Promise<void> {
-  const outputFile = './output';
+  const outputFile = path.resolve(__dirname, './output.java');
   const models = await generator.generate(jsonSchemaDraft7);
   const modelCode = models.map((outputModel) => {
     return outputModel.result;
