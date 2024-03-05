@@ -90,7 +90,8 @@ export const PYTHON_DEFAULT_CLASS_PRESET: ClassPresetType<PythonOptions> = {
           assignment = `self._${property.propertyName}: ${property.property.type} = input["${property.propertyName}"]`;
         }
         if (!property.required) {
-          return `if hasattr(input, "${property.propertyName}"):\n\t${assignment}`;
+          return `if hasattr(input, '${property.propertyName}'):
+  ${assignment}`;
         }
         return assignment;
       });
@@ -101,19 +102,21 @@ No properties
 """`;
     }
     return `def __init__(self, input: dict):
-${renderer.indent(body)}`;
+${renderer.indent(body, 2)}`;
   },
-  getter({ property }) {
-    return `@property
-def ${property.propertyName}(self):\n\treturn self._${property.propertyName}`;
+  getter({ renderer, property }) {
+    return renderer.indent(`@property
+def ${property.propertyName}(self):
+  return self._${property.propertyName}`);
   },
-  setter({ property }) {
+  setter({ renderer, property }) {
     // if const value exists we should not render a setter
     if (property.property.options.const?.value) {
       return '';
     }
 
-    return `@${property.propertyName}.setter
-def ${property.propertyName}(self, ${property.propertyName}: ${property.property.type}):\n\tself._${property.propertyName} = ${property.propertyName}`;
+    return renderer.indent(`@${property.propertyName}.setter
+def ${property.propertyName}(self, ${property.propertyName}: ${property.property.type}):
+  self._${property.propertyName} = ${property.propertyName}`);
   }
 };
