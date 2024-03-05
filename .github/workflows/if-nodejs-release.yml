@@ -16,6 +16,7 @@ on:
       - beta
       - alpha
       - next
+      - setup_release_for_cli
 
 jobs:
 
