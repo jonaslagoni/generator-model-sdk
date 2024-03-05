@@ -61,7 +61,7 @@ jobs:
           GIT_AUTHOR_EMAIL: info@asyncapi.io
           GIT_COMMITTER_NAME: asyncapi-bot
           GIT_COMMITTER_EMAIL: info@asyncapi.io
-        run: npx semantic-release@23.0.2
+        run: npx -p node@v18-lts -c "npx semantic-release@23.0.2"
       - if: failure() # Only, on failure, send a message on the 94_bot-failing-ci slack channel
         name: Report workflow run status to Slack
         uses: 8398a7/action-slack@v3
