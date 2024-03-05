@@ -1,8 +1,8 @@
-import { CSharpFileGenerator, JavaFileGenerator, JavaScriptFileGenerator, TypeScriptFileGenerator, GoFileGenerator, Logger, DartFileGenerator, PythonFileGenerator, RustFileGenerator, TS_COMMON_PRESET, TS_JSONBINPACK_PRESET, CSHARP_NEWTONSOFT_SERIALIZER_PRESET, CSHARP_COMMON_PRESET, CSHARP_JSON_SERIALIZER_PRESET, KotlinFileGenerator, TS_DESCRIPTION_PRESET, PhpFileGenerator, CplusplusFileGenerator, JAVA_CONSTRAINTS_PRESET, JAVA_JACKSON_PRESET, JAVA_COMMON_PRESET, JAVA_DESCRIPTION_PRESET, ScalaFileGenerator } from '@asyncapi/modelina';
+import { CSharpFileGenerator, JavaFileGenerator, JavaScriptFileGenerator, TypeScriptFileGenerator, GoFileGenerator, Logger, DartFileGenerator, PythonFileGenerator, RustFileGenerator, TS_COMMON_PRESET, TS_JSONBINPACK_PRESET, CSHARP_NEWTONSOFT_SERIALIZER_PRESET, CSHARP_COMMON_PRESET, CSHARP_JSON_SERIALIZER_PRESET, KotlinFileGenerator, TS_DESCRIPTION_PRESET, PhpFileGenerator, CplusplusFileGenerator, JAVA_CONSTRAINTS_PRESET, JAVA_JACKSON_PRESET, JAVA_COMMON_PRESET, JAVA_DESCRIPTION_PRESET, ScalaFileGenerator } from '@lagoni/modelina';
 import { Flags } from '@oclif/core';
 import ModelinaCommand from '../base';
 
-import type { AbstractGenerator, AbstractFileGenerator } from '@asyncapi/modelina';
+import type { AbstractGenerator, AbstractFileGenerator, ConstrainedMetaModel, OutputModel } from '@lagoni/modelina';
 import { readFile } from 'fs/promises';
 
 enum Languages {
@@ -182,16 +182,16 @@ export default class Models extends ModelinaCommand {
     }
 
     Logger.setLogger({
-      info: (message) => {
+      info: (message: string) => {
         this.log(message);
       },
-      debug: (message) => {
+      debug: (message: string) => {
         this.debug(message);
       },
-      warn: (message) => {
+      warn: (message: string) => {
         this.warn(message);
       },
-      error: (message) => {
+      error: (message: string) => {
         this.error(message);
       },
     });
@@ -388,7 +388,7 @@ export default class Models extends ModelinaCommand {
     const models = await fileGenerator.generateCompleteModels(
       document,
       { ...fileOptions });
-    const generatedModels = models.map((model) => {
+    const generatedModels = models.map((model: OutputModel) => {
       return `
 ## Model name: ${model.modelName}
 ${model.result}
