@@ -3,7 +3,7 @@
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-  branches: ['master', 'next', 'setup_release_for_cli'],
+  branches: ['setup_release_for_cli'],
   extends: 'semantic-release-monorepo',
   plugins: [
     '@semantic-release/npm',

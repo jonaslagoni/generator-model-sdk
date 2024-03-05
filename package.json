@@ -5,14 +5,14 @@
   "license": "Apache-2.0",
   "homepage": "https://www.modelina.org",
   "bugs": {
-    "url": "https://github.com/asyncapi/modelina/issues"
+    "url": "https://github.com/jonaslagoni/generator-model-sdk/issues"
   },
   "engines": {
     "node": ">=18"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/asyncapi/modelina.git"
+    "url": "git://github.com/jonaslagoni/generator-model-sdk.git"
   },
   "keywords": [
     "asyncapi",
@@ -72,7 +72,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "build:prod": "npm run build:cjs && npm run build:esm && npm run build:types && cd modelina-cli && npm i && npm run build",
+    "build:prod": "npm run build:cjs && npm run build:esm && npm run build:types && cd packages/modelina-cli && npm i && npm run build",
     "build:cjs": "tsc",
     "build:esm": "tsc --project tsconfig.json --module ESNext --outDir ./lib/esm",
     "build:types": "tsc --project tsconfig.json --declaration --emitDeclarationOnly --declarationMap --outDir ./lib/types",
