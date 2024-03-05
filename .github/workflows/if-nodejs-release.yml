@@ -19,9 +19,21 @@ on:
       - setup_release_for_cli
 
 jobs:
-  release:
-    name: Publish to any of NPM, Github, or Docker Hub
-    runs-on: ubuntu-latest
+
+  test-nodejs:
+    # We just check the message of first commit as there is always just one commit because we squash into one before merging
+    # "commits" contains array of objects where one of the properties is commit "message"
+    # Release workflow will be skipped if release conventional commits are not used
+    if: |
+      startsWith( github.event.commits[0].message , 'fix:' ) ||
+      startsWith( github.event.commits[0].message, 'fix!:' ) ||
+      startsWith( github.event.commits[0].message, 'feat:' ) ||
+      startsWith( github.event.commits[0].message, 'feat!:' )
+    name: Test NodeJS release on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - name: Set git to use LF #to once and for all finish neverending fight between Unix and Windows
         run: |
@@ -32,6 +44,7 @@ jobs:
       - name: Check if Node.js project and has package.json
         id: packagejson
         run: test -e ./package.json && echo "exists=true" >> $GITHUB_OUTPUT || echo "exists=false" >> $GITHUB_OUTPUT
+        shell: bash
       - if: steps.packagejson.outputs.exists == 'true'
         name: Check package-lock version
         uses: asyncapi/.github/.github/actions/get-node-version-from-package-lock@master
@@ -47,6 +60,30 @@ jobs:
         name: Install dependencies
         run: npm install
       - if: steps.packagejson.outputs.exists == 'true'
+        name: Build
+        run: npm run build:prod
+      
+  release:
+    needs: [test-nodejs]
+    name: Publish to any of NPM, Github, or Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set git to use LF #to once and for all finish neverending fight between Unix and Windows
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Check if Node.js project and has package.json
+        id: packagejson
+        run: test -e ./package.json && echo "exists=true" >> $GITHUB_OUTPUT || echo "exists=false" >> $GITHUB_OUTPUT
+      - if: steps.packagejson.outputs.exists == 'true'
+        name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+          cache: 'npm'
+      - if: steps.packagejson.outputs.exists == 'true'
         name: Add plugin for conventional commits for semantic-release
         run: npm install --save-dev conventional-changelog-conventionalcommits@5.0.0
       - if: steps.packagejson.outputs.exists == 'true'
@@ -61,13 +98,4 @@ jobs:
           GIT_AUTHOR_EMAIL: info@asyncapi.io
           GIT_COMMITTER_NAME: asyncapi-bot
           GIT_COMMITTER_EMAIL: info@asyncapi.io
-        run: npx -p node@v18-lts -c "npx semantic-release@23.0.2"
-      - if: failure() # Only, on failure, send a message on the 94_bot-failing-ci slack channel
-        name: Report workflow run status to Slack
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          fields: repo,action,workflow
-          text: 'Release workflow failed in release job'
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_CI_FAIL_NOTIFY }}
+        run: npx semantic-release@23.0.2
