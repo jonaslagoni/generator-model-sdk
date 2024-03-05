@@ -1,17 +1,22 @@
 {
-  extends: "semantic-release-monorepo",
-  branches: [{ name: "setup_release_for_cli", "prerelease": true }],
-  plugins:
+  "extends": "semantic-release-monorepo",
+  "branches": [
+    "setup_release_for_cli"
+  ],
+  "plugins": [
+    "@semantic-release/npm",
+    "@semantic-release/github",
     [
-      "@semantic-release/npm",
-      "@semantic-release/github",
-      [
-        "@semantic-release/commit-analyzer",
-        { "preset": "conventionalcommits" },
-      ],
-      [
-        "@semantic-release/release-notes-generator",
-        { "preset": conventionalcommits },
-      ],
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "conventionalcommits"
+      }
     ],
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "preset": "conventionalcommits"
+      }
+    ]
+  ]
 }
