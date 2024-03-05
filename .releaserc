@@ -1,4 +1,5 @@
 ---
+extends: "semantic-release-monorepo"
 branches:
 - master
 # by default release workflow reacts on push not only to master. 
@@ -14,6 +15,8 @@ branches:
 - name: alpha
   prerelease: true
 - name: next
+  prerelease: true
+- name: setup_release_for_cli
   prerelease: true
 plugins:
 - - "@semantic-release/commit-analyzer"
