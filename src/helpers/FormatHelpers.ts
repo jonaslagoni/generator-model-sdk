@@ -1,10 +1,9 @@
 import {
   camelCase,
   pascalCase,
-  paramCase,
+  kebabCase,
   constantCase,
   snakeCase,
-  pascalCaseTransformMerge
 } from 'change-case';
 
 export enum IndentationTypes {
@@ -106,7 +105,7 @@ export class FormatHelpers {
    * @returns {string}
    */
   static toPascalCaseMergingNumbers(value: string): string {
-    return pascalCase(value, { transform: pascalCaseTransformMerge });
+    return pascalCase(value);
   }
 
   /**
@@ -114,7 +113,7 @@ export class FormatHelpers {
    * @param {string} value to transform
    * @returns {string}
    */
-  static toParamCase = paramCase;
+  static toParamCase = kebabCase;
 
   /**
    * Transform into upper case string with an underscore between words.

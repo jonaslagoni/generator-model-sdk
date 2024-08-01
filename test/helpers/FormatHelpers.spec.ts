@@ -1,5 +1,8 @@
 import { FormatHelpers, IndentationTypes } from '../../src/helpers';
 
+import {
+  camelCase
+} from 'change-case';
 describe('FormatHelpers', () => {
   describe('lowerFirst', () => {
     test('should convert first char to lowercase', () => {
@@ -55,7 +58,13 @@ describe('FormatHelpers', () => {
       expect(content).toEqual('\t\t    Test');
     });
   });
-
+  
+  describe('toCamelCase', () => {
+    test('should not change outletGSId', () => {
+      const content = camelCase('outletGSId');
+      expect(content).toEqual('outletGSId');
+    });
+  });
   describe('replaceSpecialCharacters', () => {
     test('should replace any special character', () => {
       const content = FormatHelpers.replaceSpecialCharacters(' !"#$%');

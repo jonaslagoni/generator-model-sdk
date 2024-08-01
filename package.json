@@ -43,7 +43,7 @@
     "@swc/jest": "^0.2.23",
     "@types/node": "^20.3.3",
     "alterschema": "^1.1.2",
-    "change-case": "^4.1.2",
+    "change-case": "^5.4.4",
     "cross-env": "^7.0.3",
     "openapi-types": "9.3.0",
     "typescript-json-schema": "^0.58.1",
